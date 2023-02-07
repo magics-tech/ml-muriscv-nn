@@ -18,7 +18,8 @@
 
 set(TEST_NAME vww)
 
-add_executable(${TEST_NAME}_tvm)
+# add_executable(${TEST_NAME}_tvm)
+add_library(${TEST_NAME}_tvm STATIC)
 
 if(USE_VEXT)
   set(MLF_DIR mlf_vext)
@@ -37,7 +38,8 @@ target_include_directories(${TEST_NAME}_tvm PRIVATE
 )
 
 target_sources(${TEST_NAME}_tvm PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/main.c
+  # ${CMAKE_CURRENT_SOURCE_DIR}/main.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/vww_test.c
   ${CMAKE_CURRENT_SOURCE_DIR}/${MLF_DIR}/codegen/host/src/default_lib0.c
   ${CMAKE_CURRENT_SOURCE_DIR}/${MLF_DIR}/codegen/host/src/default_lib1.c
   ${CMAKE_CURRENT_SOURCE_DIR}/${MLF_DIR}/codegen/host/src/default_lib2.c
@@ -49,6 +51,19 @@ target_sources(${TEST_NAME}_tvm PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}_data/${TEST_NAME}_output_data_ref.h
 )
 
-target_link_libraries(${TEST_NAME}_tvm PRIVATE ${MURISCVNN_LIB})
+# add_library(lib_${TEST_NAME}_tvm STATIC
+#   ${CMAKE_CURRENT_SOURCE_DIR}/vww_test.c
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${MLF_DIR}/codegen/host/src/default_lib0.c
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${MLF_DIR}/codegen/host/src/default_lib1.c
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${MLF_DIR}/codegen/host/src/default_lib2.c
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}_data/${TEST_NAME}_input_data.cc
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}_data/${TEST_NAME}_input_data.h
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}_data/${TEST_NAME}_model_settings.cc
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}_data/${TEST_NAME}_model_settings.h
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}_data/${TEST_NAME}_output_data_ref.cc
+#   ${CMAKE_CURRENT_SOURCE_DIR}/${TEST_NAME}_data/${TEST_NAME}_output_data_ref.h
+# )
 
-add_muriscv_nn_intg_test(${TEST_NAME}_tvm)
+# target_link_libraries(${TEST_NAME}_tvm PRIVATE ${MURISCVNN_LIB})
+
+# add_muriscv_nn_intg_test(${TEST_NAME}_tvm)

@@ -38,25 +38,28 @@ option(USE_PEXT "Use the RISC-V P Packed Extension" OFF)
 # - rv32gcv / ilp32d -> vector support
 # - rv32gcp / ilp32d -> packed support
 # - rv32imzve32x / ilp32 -> integer only and embedded vector support (GCC only supports rv32imv!)
-if(${SIMULATOR} STREQUAL "Vicuna") # Vicuna only supports a reduced set of extensions
-  if(USE_VEXT)
-    set(RISCV_ARCH "rv32imv" CACHE STRING "march argument to the compiler, using the vector extension")
-  elseif(USE_PEXT)
-    message(FATAL_ERROR "Vicuna does not support packed instructions.")
-  else()
-    set(RISCV_ARCH "rv32im" CACHE STRING "march argument to the compiler, using only scalar instructions")
-  endif()
-  set(RISCV_ABI "ilp32" CACHE STRING "mabi argument to the compiler")
-else() # All other (instruction level) simulator support the full RISC-V ISA
-  if(USE_VEXT)
-    set(RISCV_ARCH "rv32gcv" CACHE STRING "march argument to the compiler, using the vector extension")
-  elseif(USE_PEXT)
-    set(RISCV_ARCH "rv32gcp" CACHE STRING "march argument to the compiler, using the packed extension")
-  else()
-    set(RISCV_ARCH "rv32gc" CACHE STRING "march argument to the compiler, using only scalar instructions")
-  endif()
-  set(RISCV_ABI "ilp32d" CACHE STRING "mabi argument to the compiler")
-endif()
+# if(${SIMULATOR} STREQUAL "Vicuna") # Vicuna only supports a reduced set of extensions
+#   if(USE_VEXT)
+#     set(RISCV_ARCH "rv32imv" CACHE STRING "march argument to the compiler, using the vector extension")
+#   elseif(USE_PEXT)
+#     message(FATAL_ERROR "Vicuna does not support packed instructions.")
+#   else()
+#     set(RISCV_ARCH "rv32im" CACHE STRING "march argument to the compiler, using only scalar instructions")
+#   endif()
+#   set(RISCV_ABI "ilp32" CACHE STRING "mabi argument to the compiler")
+# else() # All other (instruction level) simulator support the full RISC-V ISA
+#   if(USE_VEXT)
+#     set(RISCV_ARCH "rv32gcv" CACHE STRING "march argument to the compiler, using the vector extension")
+#   elseif(USE_PEXT)
+#     set(RISCV_ARCH "rv32gcp" CACHE STRING "march argument to the compiler, using the packed extension")
+#   else()
+#     set(RISCV_ARCH "rv32gc" CACHE STRING "march argument to the compiler, using only scalar instructions")
+#   endif()
+#   set(RISCV_ABI "ilp32d" CACHE STRING "mabi argument to the compiler")
+# endif()
+
+set(RISCV_ARCH "rv32imfcxpulpv2" CACHE STRING "march argument to the compiler, using only scalar instructions")
+set(RISCV_ABI "ilp32" CACHE STRING "mabi argument to the compiler")
 
 # Tell CMake about our processor
 set(CMAKE_SYSTEM_PROCESSOR ${RISCV_ARCH})
@@ -73,7 +76,7 @@ set_property(CACHE VLEN PROPERTY STRINGS 64 128 256 512 1024)
 
 # Enable tests by default
 option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
-option(ENABLE_INTG_TESTS "Enable integration tests" OFF)
+option(ENABLE_INTG_TESTS "Enable integration tests" ON)
 
 # Configure CMake
 if(NOT ${TOOLCHAIN} STREQUAL "NONE")

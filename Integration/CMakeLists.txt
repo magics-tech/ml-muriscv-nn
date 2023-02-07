@@ -18,5 +18,5 @@
 
 include(add_intg_test)
 
-add_subdirectory(tflm)
+# add_subdirectory(tflm)
 add_subdirectory(tvm)

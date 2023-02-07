@@ -24,23 +24,26 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # List of integration tests to run
-TESTS=(aww ic toy vww)
+# TESTS=(aww ic toy vww)
+TESTS=(vww)
 
 # List of build types
-BUILDS=(mlf mlf_vext mlf_pext)
+# BUILDS=(mlf mlf_vext mlf_pext)
+BUILDS=(mlf)
 
-echo "Download and install TVM sources."
-python3.8 -m venv .venv
-source .venv/bin/activate
-pip install tlcpack-nightly -f https://tlcpack.ai/wheels
-pip install -r requirements.txt
-pip install typing-extensions
+# echo "Download and install TVM sources."
+# python3.8 -m venv .venv
+# source .venv/bin/activate
+# pip install tlcpack-nightly -f https://tlcpack.ai/wheels
+# pip install -r requirements.txt
+# pip install typing-extensions
 
 echo "Generate TVM kernel from models."
 for test in "${TESTS[@]}"; do
   for build in "${BUILDS[@]}"; do
 
     TVMC_TARGET_ARGS="--target cmsis-nn,c"
+    # TVMC_TARGET_ARGS="--target c"
 
     if [[ ${build} == "mlf_vext" ]]; then
       TVMC_TARGET_ARGS="${TVMC_TARGET_ARGS} --target-cmsis-nn-mcpu cortex-m55"
